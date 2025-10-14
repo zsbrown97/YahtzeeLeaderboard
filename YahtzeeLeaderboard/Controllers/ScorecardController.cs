@@ -27,6 +27,16 @@ namespace YahtzeeLeaderboard.Controllers
             return Ok(result);
         }
 
+        [HttpGet("summary/{gameId}-{playerId}")]
+        public async Task<ActionResult<ScoreSummaryDto>> GetScorecardTotals(
+            [FromRoute] int gameId,
+            [FromRoute] int playerId
+        )
+        {
+            var result = await _scorecardService.GetScorecardTotalsAsync(gameId, playerId);
+            return Ok(result);
+        }
+
         [HttpGet("upperTotal/{gameId}/{playerId}")]
         public async Task<ActionResult<int>> GetUpperTotal([FromRoute] int gameId, [FromRoute] int playerId)
         {
