@@ -6,8 +6,5 @@ namespace YahtzeeLeaderboard.Services
     {
         Task<IEnumerable<ScorecardDto>> GetAllScorecardsAsync();
         Task<ScoreSummaryDto> GetScorecardTotalsAsync(int gameId, int playerId);
-        Task<int> GetUpperTotalAsync(int gameId, int playerId);
-        Task<int> GetLowerTotalAsync(int gameId, int playerId);
-        //Task<int> GetFinalScoreAsync(int gameId, int playerId);
     }
 }

@@ -22,5 +22,12 @@ namespace YahtzeeLeaderboard.Controllers
             var result = await _playerService.GetPlayersAsync();
             return Ok(result);
         }
+
+        [HttpGet("playerSummaries")]
+        public async Task<ActionResult<IEnumerable<PlayerSummaryDto>>> GetPlayerSummaries()
+        {
+            var result = await _playerService.GetPlayerSummariesAsync();
+            return Ok(result);
+        }
     }
 }

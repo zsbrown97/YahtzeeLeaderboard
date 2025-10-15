@@ -1,6 +1,6 @@
-const API_URL = "http://localhost:5089/api";
+const API_URL = "http://localhost:5089/api/Player";
 
-export async function getPlayers(fetch: typeof window.fetch) {
-    const res = await fetch(`${API_URL}/Player`);
+export async function getPlayerSummaries(fetch: typeof window.fetch) {
+    const res = await fetch(`${API_URL}/playerSummaries`);
     return res.json();
 }

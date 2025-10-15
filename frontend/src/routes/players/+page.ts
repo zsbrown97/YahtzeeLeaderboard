@@ -1,6 +1,6 @@
-import { getPlayers } from "$lib/api/players";
+import { getPlayerSummaries } from "$lib/api/players";
 
 export async function load({ fetch }) {
-    const players = await getPlayers(fetch);
+    const players = await getPlayerSummaries(fetch);
     return { players }
 }

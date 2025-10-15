@@ -1,8 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-using YahtzeeLeaderboard.Data;
 using YahtzeeLeaderboard.Dtos;
 using YahtzeeLeaderboard.Models;
 using YahtzeeLeaderboard.Services;
@@ -34,20 +31,6 @@ namespace YahtzeeLeaderboard.Controllers
         )
         {
             var result = await _scorecardService.GetScorecardTotalsAsync(gameId, playerId);
-            return Ok(result);
-        }
-
-        [HttpGet("upperTotal/{gameId}/{playerId}")]
-        public async Task<ActionResult<int>> GetUpperTotal([FromRoute] int gameId, [FromRoute] int playerId)
-        {
-            var result = await _scorecardService.GetUpperTotalAsync(gameId, playerId);
-            return Ok(result);
-        }
-
-        [HttpGet("lowerTotal/{gameId}/{playerId}")]
-        public async Task<ActionResult<int>> GetLowerTotal([FromRoute] int gameId, [FromRoute] int playerId)
-        {
-            var result = await _scorecardService.GetLowerTotalAsync(gameId, playerId);
             return Ok(result);
         }
     }

@@ -13,12 +13,14 @@
     <Table.Header>
         <Table.Row>
             <Table.Head>Name</Table.Head>
+            <Table.Head>Grand Total</Table.Head>
         </Table.Row>
     </Table.Header>
     <Table.Body>
         {#each players as p}
             <Table.Row>
                 <Table.Cell>{p.name}</Table.Cell>
+                <Table.Cell>{p.grandTotal}</Table.Cell>
             </Table.Row>
         {/each}
     </Table.Body>
