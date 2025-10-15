@@ -33,7 +33,6 @@ namespace YahtzeeLeaderboard.Services
             {
                 throw new Exception("An error occurred: " + e.Message);
             }
-            
         }
         
         public async Task<IEnumerable<PlayerSummaryDto>> GetPlayerSummariesAsync()
@@ -45,6 +44,10 @@ namespace YahtzeeLeaderboard.Services
 
                 foreach (var player in players)
                 {
+                    int gamesPlayed = await _context.Scorecards
+                        .Where(s => s.PlayerId == player.Id)
+                        .CountAsync();
+                    
                     var scores = await _context.Scorecards
                         .Where(s => s.PlayerId == player.Id)
                         .Select(s => new
@@ -78,7 +81,8 @@ namespace YahtzeeLeaderboard.Services
                     {
                         Id = player.Id,
                         Name = player.Name,
-                        GrandTotal = grandTotal
+                        GrandTotal = grandTotal,
+                        GamesPlayed = gamesPlayed
                     });
                 }
 
@@ -88,7 +92,6 @@ namespace YahtzeeLeaderboard.Services
             {
                 throw new Exception("An error occurred: " + e.Message);
             }
-            
         }
     }
 }

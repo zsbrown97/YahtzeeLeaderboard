@@ -14,6 +14,7 @@
         <Table.Row>
             <Table.Head>Name</Table.Head>
             <Table.Head>Grand Total</Table.Head>
+            <Table.Head>No. of Games</Table.Head>
         </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -21,6 +22,7 @@
             <Table.Row>
                 <Table.Cell>{p.name}</Table.Cell>
                 <Table.Cell>{p.grandTotal}</Table.Cell>
+                <Table.Cell>{p.gamesPlayed}</Table.Cell>
             </Table.Row>
         {/each}
     </Table.Body>

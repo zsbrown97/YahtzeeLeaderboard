@@ -10,5 +10,7 @@ namespace YahtzeeLeaderboard.Dtos
         public string Name { get; set; }
         [Required]
         public int GrandTotal { get; set; }
+        [Required]
+        public int GamesPlayed { get; set; }
     }
 }
