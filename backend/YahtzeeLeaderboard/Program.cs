@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 using YahtzeeLeaderboard.Data;
@@ -13,6 +12,17 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IScorecardService, ScorecardService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
 
 // Add dbContext with SQLite
 builder.Services.AddDbContext<YahtzeeLeaderboardContext>(options => 
@@ -34,6 +44,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseCors("AllowFrontend");
 
 app.Run();
     
