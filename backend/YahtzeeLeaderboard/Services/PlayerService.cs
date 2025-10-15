@@ -93,5 +93,72 @@ namespace YahtzeeLeaderboard.Services
                 throw new Exception("An error occurred: " + e.Message);
             }
         }
+
+        public async Task<IEnumerable<MostRecentGameDto>> GetMostRecentGamesAsync()
+        {
+            try
+            {
+                var players = await _context.Players.ToListAsync();
+                var mostRecentGames = new List<MostRecentGameDto>();
+
+                foreach (var player in players)
+                {
+                    var lastGame = _context.Scorecards
+                        .Where(s => s.PlayerId == player.Id)
+                        .OrderByDescending(s => s.GameId)
+                        .FirstOrDefault();
+                    
+                    int upperTotal = 
+                        lastGame.Ones + 
+                        lastGame.Twos + 
+                        lastGame.Threes + 
+                        lastGame.Fours + 
+                        lastGame.Fives + 
+                        lastGame.Sixes;
+                    int upperBonus = (upperTotal >= 63) ? 35 : 0; 
+                    
+                    int lowerTotal =
+                        lastGame.ThreeOfAKind +
+                        lastGame.FourOfAKind +
+                        (lastGame.FullHouse ? 25 : 0) +
+                        (lastGame.SmStraight ? 30 : 0) +
+                        (lastGame.LgStraight ? 40 : 0) +
+                        (lastGame.Yahtzee ? 50 : 0) +
+                        (lastGame.BonusYahtzees * 100) +
+                        lastGame.Chance;
+                    
+                    mostRecentGames.Add(new MostRecentGameDto
+                    {
+                        PlayerId = player.Id,
+                        PlayerName = player.Name,
+                        Ones = lastGame.Ones,
+                        Twos = lastGame.Twos,
+                        Threes = lastGame.Threes,
+                        Fours = lastGame.Fours,
+                        Fives = lastGame.Fives,
+                        Sixes = lastGame.Sixes,
+                        UpperBonus = upperBonus,
+                        UpperTotal = upperTotal + upperBonus,
+                        
+                        ThreeOfAKind = lastGame.ThreeOfAKind,
+                        FourOfAKind = lastGame.FourOfAKind,
+                        FullHouse = lastGame.FullHouse ? 25 : 0,
+                        SmStraight = lastGame.SmStraight ? 30 : 0,
+                        LgStraight = lastGame.LgStraight ? 40 : 0,
+                        Yahtzee = lastGame.Yahtzee ? 50 : 0,
+                        BonusYahtzees = lastGame.BonusYahtzees,
+                        Chance = lastGame.Chance,
+                        
+                        LowerTotal = lowerTotal,
+                        GrandTotal = upperTotal + upperBonus + lowerTotal
+                    });
+                } 
+                return mostRecentGames;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An error occurred: " + e.Message);
+            }
+        }
     }
 }

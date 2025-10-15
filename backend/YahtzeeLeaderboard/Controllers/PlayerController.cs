@@ -29,5 +29,12 @@ namespace YahtzeeLeaderboard.Controllers
             var result = await _playerService.GetPlayerSummariesAsync();
             return Ok(result);
         }
+
+        [HttpGet("mostRecentGames")]
+        public async Task<ActionResult<IEnumerable<MostRecentGameDto>>> GetMostRecentGames()
+        {
+            var result = await _playerService.GetMostRecentGamesAsync();
+            return Ok(result);
+        }
     }
 }

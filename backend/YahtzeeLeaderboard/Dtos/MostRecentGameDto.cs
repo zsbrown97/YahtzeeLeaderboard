@@ -1,16 +1,14 @@
-
-
 using System.ComponentModel.DataAnnotations;
 
 namespace YahtzeeLeaderboard.Dtos
 {
-    public class ScorecardDto
+    public class MostRecentGameDto
     {
         [Required]
-        public int GameId { get; set; }
-        [Required]
         public int PlayerId { get; set; }
-        [Required]
+        [Required] 
+        public string PlayerName { get; set; }
+        [Required] 
         public int Ones { get; set; }
         [Required]
         public int Twos { get; set; }
@@ -23,21 +21,30 @@ namespace YahtzeeLeaderboard.Dtos
         [Required]
         public int Sixes { get; set; }
         [Required]
+        public int UpperBonus { get; set; }
+        [Required]
+        public int UpperTotal { get; set; }
+        [Required]
         public int ThreeOfAKind { get; set; }
         [Required]
         public int FourOfAKind { get; set; }
+        [Required]
+        public int FullHouse { get; set; }
         [Required] 
-        public bool FullHouse { get; set; }
+        public int SmStraight { get; set; }
         [Required]
-        public bool SmStraight { get; set; }
+        public int LgStraight { get; set; }
         [Required]
-        public bool LgStraight { get; set; }
-        [Required]
-        public bool Yahtzee { get; set; }
-        [Required]
-        [Range(0,3)]
+        public int Yahtzee { get; set; }
+        [Required] 
+        [Range(0, 3)] 
         public int BonusYahtzees { get; set; }
         [Required]
-        public bool Chance { get; set; }
+        public int Chance { get; set; }
+        [Required]
+        public int LowerTotal { get; set; }
+        [Required] 
+        public int GrandTotal { get; set; }
+
     }
 }
