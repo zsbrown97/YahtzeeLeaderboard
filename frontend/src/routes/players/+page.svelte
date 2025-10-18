@@ -11,7 +11,29 @@
 
 <div class="flex flex-col items-center justify-center">
     <div class="w=full max-w-8xl overflow-x-auto">
-<Table.Root>
+        <Table.Root>
+            <Table.Header>
+                <Table.Row>
+                    <Table.Head>Name</Table.Head>
+                    <Table.Head>Grand Total</Table.Head>
+                    <Table.Head>No. of Games</Table.Head>
+                    <Table.Head>Wins</Table.Head>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {#each players as p}
+                    <Table.Row>
+                        <Table.Cell>{p.name}</Table.Cell>
+                        <Table.Cell>{p.grandTotal}</Table.Cell>
+                        <Table.Cell>{p.gamesPlayed}</Table.Cell>
+                        <Table.Cell>{p.wins}</Table.Cell>
+                    </Table.Row>
+                {/each}
+            </Table.Body>
+        </Table.Root>
+    </div>
+</div>
+<!-- <Table.Root>
     <Table.Header>
         <Table.Row>
             <Table.Head>Name</Table.Head>
@@ -61,24 +83,5 @@
         {/each}
     </Table.Body>
 </Table.Root>
+    -->
 
-<Table.Root>
-    <Table.Header>
-        <Table.Row>
-            <Table.Head>Name</Table.Head>
-            <Table.Head>Grand Total</Table.Head>
-            <Table.Head>No. of Games</Table.Head>
-        </Table.Row>
-    </Table.Header>
-    <Table.Body>
-        {#each players as p}
-            <Table.Row>
-                <Table.Cell>{p.name}</Table.Cell>
-                <Table.Cell>{p.grandTotal}</Table.Cell>
-                <Table.Cell>{p.gamesPlayed}</Table.Cell>
-            </Table.Row>
-        {/each}
-    </Table.Body>
-</Table.Root>
-
-</div></div>

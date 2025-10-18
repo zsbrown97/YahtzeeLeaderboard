@@ -41,9 +41,32 @@ namespace YahtzeeLeaderboard.Services
             {
                 var players = await _context.Players.ToListAsync();
                 var summaries = new List<PlayerSummaryDto>();
+               
+                var winners = await _context.Scorecards
+                    .GroupBy(s => s.GameId)
+                    .Select(s =>
+                        s.OrderByDescending(s =>
+                                (s.Ones + s.Twos + s.Threes + s.Fours + s.Fives + s.Sixes) +
+                                ((s.Ones + s.Twos + s.Threes + s.Fours  + s.Fives + s.Sixes) > 63 ? 35 : 0) +
+                                s.ThreeOfAKind +
+                                s.FourOfAKind +
+                                (s.FullHouse ? 25 : 0) +
+                                (s.SmStraight ? 30 : 0) +
+                                (s.LgStraight ? 40 : 0) + 
+                                (s.Yahtzee ? 50 : 0) +
+                                (s.BonusYahtzees * 100) +
+                                s.Chance
+                            ).FirstOrDefault().PlayerId)
+                    .ToListAsync();
+
+                var winsByPlayer = winners
+                    .GroupBy(id => id)
+                    .ToDictionary(w => w.Key, w => w.Count());
 
                 foreach (var player in players)
                 {
+                    int grandTotal = 0;
+                    
                     int gamesPlayed = await _context.Scorecards
                         .Where(s => s.PlayerId == player.Id)
                         .CountAsync();
@@ -70,7 +93,7 @@ namespace YahtzeeLeaderboard.Services
                                 (s.BonusYahtzees * 100)
                         })
                         .ToListAsync();
-                    var grandTotal = 0;
+                    
                     foreach (var score in scores)
                     {
                         var upperBonus = score.Upper >= 63 ? 35 : 0;
@@ -82,7 +105,8 @@ namespace YahtzeeLeaderboard.Services
                         Id = player.Id,
                         Name = player.Name,
                         GrandTotal = grandTotal,
-                        GamesPlayed = gamesPlayed
+                        GamesPlayed = gamesPlayed,
+                        Wins = winsByPlayer[player.Id]
                     });
                 }
 
