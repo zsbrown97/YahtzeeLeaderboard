@@ -4,3 +4,9 @@ export async function getPlayerSummaries(fetch: typeof window.fetch) {
     const res = await fetch(`${API_URL}/playerSummaries`);
     return res.json();
 }
+
+export async function getMostRecentGames(fetch: typeof window.fetch) {
+    const res = await fetch(`${API_URL}/mostRecentGames`);
+    return res.json();
+
+}

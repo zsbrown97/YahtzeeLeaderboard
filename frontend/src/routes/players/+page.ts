@@ -1,6 +1,10 @@
-import { getPlayerSummaries } from "$lib/api/players";
+import { getPlayerSummaries, getMostRecentGames } from "$lib/api/players";
 
 export async function load({ fetch }) {
     const players = await getPlayerSummaries(fetch);
-    return { players }
+
+    const mostRecentGames = await getMostRecentGames(fetch);
+
+
+    return { players, mostRecentGames }
 }
