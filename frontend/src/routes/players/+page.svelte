@@ -22,12 +22,12 @@
             </Table.Header>
             <Table.Body>
                 {#each players as p}
-                    <Table.Row>
-                        <Table.Cell>{p.name}</Table.Cell>
-                        <Table.Cell>{p.grandTotal}</Table.Cell>
-                        <Table.Cell>{p.gamesPlayed}</Table.Cell>
-                        <Table.Cell>{p.wins}</Table.Cell>
-                    </Table.Row>
+                        <Table.Row>
+                            <Table.Cell>{p.name}</Table.Cell>
+                            <Table.Cell>{p.grandTotal}</Table.Cell>
+                            <Table.Cell>{p.gamesPlayed}</Table.Cell>
+                            <Table.Cell>{p.wins}</Table.Cell>
+                        </Table.Row>
                 {/each}
             </Table.Body>
         </Table.Root>
