@@ -36,5 +36,12 @@ namespace YahtzeeLeaderboard.Controllers
             var result = await _playerService.GetMostRecentGamesAsync();
             return Ok(result);
         }
+
+        [HttpGet("averageScorecard/{id}")]
+        public async Task<ActionResult<AverageScoresDto>> GetAverageScorecard([FromRoute] int id)
+        {
+            var result = await _playerService.GetAverageScorecardAsync(id);
+            return Ok(result);
+        }
     }
 }

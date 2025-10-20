@@ -184,5 +184,58 @@ namespace YahtzeeLeaderboard.Services
                 throw new Exception("An error occurred: " + e.Message);
             }
         }
+
+        public async Task<AverageScoresDto> GetAverageScorecardAsync(int playerId)
+        {
+            try
+            {
+                var scorecards = await _mapper.ProjectTo<ScorecardDto>(
+                        _context.Scorecards
+                    )
+                    .Where(s => s.PlayerId == playerId)
+                    .AsNoTracking()
+                    .ToListAsync();
+                
+                int averageOnes = (int)scorecards
+                    .Select(s => s.Ones)
+                    .ToList()
+                    .Average();
+                int averageTwos = (int)scorecards
+                    .Select(s => s.Twos / 2)
+                    .ToList()
+                    .Average() * 2;
+                int averageThrees = (int)scorecards
+                    .Select(s => s.Threes / 3)
+                    .ToList()
+                    .Average() * 3;
+                int averageFours = (int)scorecards
+                    .Select(s => s.Fours / 4)
+                    .ToList()
+                    .Average() * 4;
+                int averageFives = (int)scorecards
+                    .Select(s => s.Fives / 5)
+                    .ToList()
+                    .Average() * 5;
+                int averageSixes = (int)scorecards
+                    .Select(s => s.Sixes / 6)
+                    .ToList()
+                    .Average() * 6;
+
+                return new AverageScoresDto
+                {
+                    PlayerId = playerId,
+                    Ones = averageOnes,
+                    Twos = averageTwos,
+                    Threes = averageThrees,
+                    Fours = averageFours,
+                    Fives = averageFives,
+                    Sixes = averageSixes
+                };
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An error occurred: " + e.Message);
+            }
+        }
     }
 }

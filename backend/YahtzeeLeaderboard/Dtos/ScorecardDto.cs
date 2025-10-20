@@ -38,6 +38,6 @@ namespace YahtzeeLeaderboard.Dtos
         [Range(0,3)]
         public int BonusYahtzees { get; set; }
         [Required]
-        public bool Chance { get; set; }
+        public int Chance { get; set; }
     }
 }
