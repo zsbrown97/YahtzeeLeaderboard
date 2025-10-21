@@ -14,7 +14,6 @@ namespace YahtzeeLeaderboard.Profiles
             
             // Game
             CreateMap<Game, GameDto>().ReverseMap();
-            CreateMap<CreateGameDto, Game>();
             
             // Scorecard
             CreateMap<Scorecard, ScorecardDto>().ReverseMap();

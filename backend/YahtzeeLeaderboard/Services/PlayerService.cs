@@ -118,12 +118,12 @@ namespace YahtzeeLeaderboard.Services
             }
         }
 
-        public async Task<IEnumerable<MostRecentGameDto>> GetMostRecentGamesAsync()
+        public async Task<IEnumerable<PlayerScorecardDto>> GetMostRecentGamesAsync()
         {
             try
             {
                 var players = await _context.Players.ToListAsync();
-                var mostRecentGames = new List<MostRecentGameDto>();
+                var mostRecentGames = new List<PlayerScorecardDto>();
 
                 foreach (var player in players)
                 {
@@ -151,7 +151,7 @@ namespace YahtzeeLeaderboard.Services
                         (lastGame.BonusYahtzees * 100) +
                         lastGame.Chance;
                     
-                    mostRecentGames.Add(new MostRecentGameDto
+                    mostRecentGames.Add(new PlayerScorecardDto
                     {
                         PlayerId = player.Id,
                         PlayerName = player.Name,
@@ -184,8 +184,8 @@ namespace YahtzeeLeaderboard.Services
                 throw new Exception("An error occurred: " + e.Message);
             }
         }
-
-        public async Task<AverageScoresDto> GetAverageScorecardAsync(int playerId)
+        
+        public async Task<PlayerScorecardDto> GetAverageScorecardAsync(int playerId)
         {
             try
             {
@@ -195,7 +195,14 @@ namespace YahtzeeLeaderboard.Services
                     .Where(s => s.PlayerId == playerId)
                     .AsNoTracking()
                     .ToListAsync();
+                int numberOfRecords = scorecards.Count;
+
+                var playerName = await _context.Players
+                    .Where(p => p.Id == playerId)
+                    .Select(p => p.Name)
+                    .FirstOrDefaultAsync();
                 
+                // Upper Half
                 int averageOnes = (int)scorecards
                     .Select(s => s.Ones)
                     .ToList()
@@ -221,15 +228,82 @@ namespace YahtzeeLeaderboard.Services
                     .ToList()
                     .Average() * 6;
 
-                return new AverageScoresDto
+                int upperTotal = averageOnes + averageTwos + averageThrees + averageFours + 
+                                 averageFives + averageSixes;
+                int upperBonus = (upperTotal >= 63) ? 35 : 0;
+                upperTotal += upperBonus;
+                
+                // Lower Half 
+                int averageToaK = (int)scorecards
+                    .Select(s => s.ThreeOfAKind)
+                    .ToList()
+                    .Average();
+                int averageFoaK = (int)scorecards
+                    .Select(s => s.FourOfAKind)
+                    .ToList()
+                    .Average();
+                
+                int fullHouseCount = scorecards
+                    .Count(s => s.FullHouse);
+                int averageFullHouse = (fullHouseCount >= numberOfRecords / 2) 
+                    ? 25 
+                    : 0;
+                
+                int smStraightCount = scorecards
+                    .Count(s => s.SmStraight);
+                int averageSmStraight = (smStraightCount >= numberOfRecords / 2)
+                    ? 30
+                    : 0;
+                
+                int lgStraightCount = scorecards
+                    .Count(s => s.LgStraight);
+                int averageLgStraight = (lgStraightCount >= numberOfRecords / 2)
+                    ? 40
+                    : 0;
+
+                int yahtzeeCount = scorecards
+                    .Count(s => s.Yahtzee);
+                int averageYahtzee = (yahtzeeCount >= numberOfRecords / 2)
+                    ? 50
+                    : 0;
+                int bonusYahtzeeCount = (int)scorecards
+                    .Select(s => s.BonusYahtzees)
+                    .Average();
+
+                int averageChance = (int)scorecards
+                    .Select(s => s.Chance)
+                    .ToList()
+                    .Average();
+                
+                int lowerTotal = averageToaK + averageFoaK + averageFullHouse + averageSmStraight + 
+                                 averageLgStraight + averageYahtzee + (bonusYahtzeeCount * 100) + 
+                                 averageChance;
+
+                int grandTotal = upperTotal + lowerTotal;
+                
+                
+                return new PlayerScorecardDto 
                 {
                     PlayerId = playerId,
+                    PlayerName = playerName,
                     Ones = averageOnes,
                     Twos = averageTwos,
                     Threes = averageThrees,
                     Fours = averageFours,
                     Fives = averageFives,
-                    Sixes = averageSixes
+                    Sixes = averageSixes,
+                    UpperBonus = upperBonus,
+                    UpperTotal = upperTotal,
+                    ThreeOfAKind = averageToaK,
+                    FourOfAKind = averageFoaK,
+                    FullHouse = averageFullHouse,
+                    SmStraight = averageSmStraight,
+                    LgStraight = averageLgStraight,
+                    Yahtzee = averageYahtzee,
+                    BonusYahtzees = bonusYahtzeeCount,
+                    Chance = averageChance,
+                    LowerTotal = lowerTotal,
+                    GrandTotal = grandTotal
                 };
             }
             catch (Exception e)

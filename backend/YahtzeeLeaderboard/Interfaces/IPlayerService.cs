@@ -6,7 +6,7 @@ namespace YahtzeeLeaderboard.Interfaces
     {
         Task<IEnumerable<PlayerDto>> GetPlayersAsync();
         Task<IEnumerable<PlayerSummaryDto>> GetPlayerSummariesAsync();
-        Task<IEnumerable<MostRecentGameDto>> GetMostRecentGamesAsync();
-        Task<AverageScoresDto> GetAverageScorecardAsync(int playerId);
+        Task<IEnumerable<PlayerScorecardDto>> GetMostRecentGamesAsync();
+        Task<PlayerScorecardDto> GetAverageScorecardAsync(int playerId);
     }
 }

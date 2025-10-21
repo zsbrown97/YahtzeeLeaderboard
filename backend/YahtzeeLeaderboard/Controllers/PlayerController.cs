@@ -31,14 +31,14 @@ namespace YahtzeeLeaderboard.Controllers
         }
 
         [HttpGet("mostRecentGames")]
-        public async Task<ActionResult<IEnumerable<MostRecentGameDto>>> GetMostRecentGames()
+        public async Task<ActionResult<IEnumerable<PlayerScorecardDto>>> GetMostRecentGames()
         {
             var result = await _playerService.GetMostRecentGamesAsync();
             return Ok(result);
         }
 
         [HttpGet("averageScorecard/{id}")]
-        public async Task<ActionResult<AverageScoresDto>> GetAverageScorecard([FromRoute] int id)
+        public async Task<ActionResult<PlayerScorecardDto>> GetAverageScorecard([FromRoute] int id)
         {
             var result = await _playerService.GetAverageScorecardAsync(id);
             return Ok(result);

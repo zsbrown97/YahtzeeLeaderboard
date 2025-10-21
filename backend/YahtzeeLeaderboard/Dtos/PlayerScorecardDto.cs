@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YahtzeeLeaderboard.Dtos
 {
-    public class MostRecentGameDto
+    public class PlayerScorecardDto
     {
         [Required]
         public int PlayerId { get; set; }
