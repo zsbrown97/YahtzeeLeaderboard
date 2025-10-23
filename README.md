@@ -8,9 +8,9 @@ Currently a work-in-progress. Trying out different views and calculations to loo
 
 ## To Do
 - Scorecard view
--   Most recent game
--   Average scorecard
--   All cards
+  - Most recent game
+  - Average scorecard
+  - All cards
 
 - Highest individual values
 
