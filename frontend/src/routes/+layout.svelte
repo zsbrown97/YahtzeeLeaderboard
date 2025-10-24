@@ -1,4 +1,5 @@
 <script lang="ts">
+	import NavHeader from '$lib/components/NavHeader.svelte';
 	import favicon from '$lib/assets/favicon.svg';
 
 	import "../app.css";
@@ -10,10 +11,6 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<nav>
-	<a href="/">home</a>
-	<a href="/playerSummary">players</a>
-	<a href="/mostRecentGame">most recent game</a>
-</nav>
+<NavHeader />
 
 {@render children?.()}
