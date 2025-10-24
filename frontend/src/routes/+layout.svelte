@@ -13,6 +13,7 @@
 <nav>
 	<a href="/">home</a>
 	<a href="/playerSummary">players</a>
+	<a href="/mostRecentGame">most recent game</a>
 </nav>
 
 {@render children?.()}
